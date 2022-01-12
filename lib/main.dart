@@ -14,10 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        cardColor: Color.fromRGBO(60, 70, 72, 0.9),
+        appBarTheme: AppBarTheme(
+            color: Color.fromRGBO(29, 34, 37, 0.9)), //cor da app bar
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        cardColor: Color.fromRGBO(60, 70, 72, 0.9), //cor do card usado
         scaffoldBackgroundColor: Color.fromRGBO(29, 34, 37, 0.9),
         textTheme: const TextTheme(
+          //definir tema
           headline1: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,

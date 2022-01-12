@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myworkout/utils/Utils.dart';
+import 'package:myworkout/widgets/app_drawer.dart';
 import 'package:myworkout/widgets/today_workout.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,6 +21,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      drawer: AppDrawer(),
+      //estender o corpo por tras da app bar, assim obrigou a a colocar pading na coluna que tem os botoes
       appBar: AppBar(
         title: Text('Home'),
       ),
@@ -28,20 +32,24 @@ class HomeScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/bg3.jpg'),
-              ),
+                  image: AssetImage('assets/images/bg3.jpg'),
+                  fit: BoxFit.cover),
             ),
           ),
-          Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: ButtonBar(
-                  children: _getButtonBar(),
+          Padding(
+            padding: const EdgeInsets.only(top: 80),
+            child: Column(
+              children: [
+                SingleChildScrollView(
+                  scrollDirection:
+                      Axis.horizontal, //colocar os botoes de forma horizontal
+                  child: ButtonBar(
+                    children: _getButtonBar(),
+                  ),
                 ),
-              ),
-              TodayWorkout(),
-            ],
+                TodayWorkout(), //widget
+              ],
+            ),
           ),
         ],
       ),

@@ -31,6 +31,7 @@ class TodayWorkout extends StatelessWidget {
                 Row(
                   children: [
                     Flexible(
+                      // se o texto for maior ira colocar por baixo de forma flexivel
                       child: Padding(
                         padding: const EdgeInsets.only(
                             left: 30, right: 30, bottom: 20),
@@ -48,6 +49,7 @@ class TodayWorkout extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: ClipRRect(
+              // usado pra colocar bordas no filho automaticamente
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -60,7 +62,7 @@ class TodayWorkout extends StatelessWidget {
                 ),
                 width: 130,
                 height: 200,
-                fit: BoxFit.cover,
+                fit: BoxFit.cover, //cobrir todo espaco
               ),
             ),
           )
