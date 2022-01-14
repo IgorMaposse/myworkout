@@ -4,6 +4,8 @@ import 'package:myworkout/widgets/app_drawer.dart';
 import 'package:myworkout/widgets/today_workout.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const route = '/';
+
   List<ElevatedButton> _getButtonBar() {
     int day = 1;
     List<ElevatedButton> _list = [];

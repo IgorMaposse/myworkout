@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myworkout/screens/home_screen.dart';
+import 'package:myworkout/screens/workout_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,10 +22,9 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(29, 34, 37, 0.9)), //cor da app bar
         canvasColor: Colors.transparent,
         accentColor: const Color.fromRGBO(0, 233, 100, 1),
-
         visualDensity: VisualDensity.adaptivePlatformDensity,
         cardColor: const Color.fromRGBO(60, 70, 72, 0.9), //cor do card usado
-        scaffoldBackgroundColor:const Color.fromRGBO(29, 34, 37, 0.9),
+        scaffoldBackgroundColor: const Color.fromRGBO(29, 34, 37, 0.9),
         textTheme: const TextTheme(
           //definir tema
           headline1: TextStyle(
@@ -42,7 +42,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomeScreen(),
+      // home: HomeScreen(),
+      routes: {
+        HomeScreen.route: (_) => HomeScreen(),
+        WorkOutScreen.route: (_) => WorkOutScreen(),
+      },
     );
   }
 }
