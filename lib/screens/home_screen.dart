@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       _list.add(
         ElevatedButton(
           onPressed: () => print('Botao $i'),
-          child: Text(Utils.getWeekDayName(i)),
+          child: Text(Utils.getWeekDayName(i).substring(0, 3)),
         ),
       );
     }
@@ -25,31 +25,32 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       drawer: AppDrawer(),
-      //estender o corpo por tras da app bar, assim obrigou a a colocar pading na coluna que tem os botoes
       appBar: AppBar(
         title: Text('Home'),
       ),
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/bg3.jpg'),
-                  fit: BoxFit.cover),
+                image: AssetImage('assets/images/bg3.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 80),
+            padding: EdgeInsets.only(
+              top: 110,
+            ),
             child: Column(
-              children: [
+              children: <Widget>[
                 SingleChildScrollView(
-                  scrollDirection:
-                      Axis.horizontal, //colocar os botoes de forma horizontal
+                  scrollDirection: Axis.horizontal,
                   child: ButtonBar(
                     children: _getButtonBar(),
                   ),
                 ),
-                TodayWorkout(), //widget
+                TodayWorkout()
               ],
             ),
           ),

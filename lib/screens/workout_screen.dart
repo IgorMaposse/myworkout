@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:myworkout/models/workout.dart';
+import 'package:myworkout/providers/workout_provider.dart';
+import 'package:myworkout/screens/exercise_screen.dart';
+import 'package:myworkout/screens/workout_screen_management.dart';
 import 'package:myworkout/widgets/app_drawer.dart';
+import 'package:myworkout/widgets/workout_card.dart';
 import 'package:myworkout/widgets/workout_screen_custom_cliper.dart';
+import 'package:provider/provider.dart';
 
 class WorkOutScreen extends StatelessWidget {
   static const route = '/workout';
@@ -8,7 +14,8 @@ class WorkOutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _query = MediaQuery.of(context);
-
+    //final workouts = Provider.of<WorkoutProvider>(context).get();
+    // print(workouts);
     var value = ModalRoute.of(context)!
         .settings
         .arguments; //recebendo argumentos de outra pagina
@@ -17,10 +24,17 @@ class WorkOutScreen extends StatelessWidget {
       drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Treinos'),
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.of(context).pushNamed(
+                  WorkoutScreenManagement.route,
+                  arguments: {'title': 'Novo Treino'}),
+              icon: Icon(Icons.add))
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
-        children: [
+        children: <Widget>[
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -29,45 +43,35 @@ class WorkOutScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          //quando dependemos de uma resposta futura usamos ja nao usamos o consumer, mas sim o widget que facilita o trabalho com essas funcoes assucronas, esse eh o futurebuilder
+          /*
           Padding(
-            padding: const EdgeInsets.only(top: 80),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: _query.size.width * 0.4,
-                    child: ClipPath(
-                      clipper: WorkoutScreenCustomCliper(),
-                      child: const Image(
-                        image: NetworkImage(
-                            'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'),
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: const <Widget>[
-                        Text('corrida'),
-                        Text('Sabado'),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            child: Text('Exercicios'),
-                            onPressed: null,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+            padding: const EdgeInsets.only(top: 113),
+            child: Consumer<WorkoutProvider>(
+              builder: (_, provider, child) {
+                print('consummer');
+                return WorkoutCard();
+              },
             ),
+          ),
+         */
+          FutureBuilder(
+            future: Provider.of<WorkoutProvider>(context).get(),
+            builder: (context, AsyncSnapshot<List<Workout>> snapshot) {
+              var data = snapshot.data;
+
+              return snapshot.connectionState == ConnectionState.done
+                  ? ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, index) {
+                        return WorkoutCard(
+                            snapshot.data![index].imageUrl,
+                            snapshot.data![index].name,
+                            snapshot.data![index].weekDay);
+                      })
+                  : Center(child: CircularProgressIndicator());
+            },
           ),
         ],
       ),
