@@ -55,9 +55,16 @@ class _WorkoutScreenManagementState extends State<WorkoutScreenManagement> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    // final Object? arguments = ModalRoute.of(context)!.settings.arguments;
+    // _workout = Provider.of<WorkoutProvider>(context).getById(arguments.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final Map<String, Object>? arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
+    final arguments = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('Novo Treino'),
