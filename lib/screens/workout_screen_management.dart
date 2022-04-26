@@ -19,6 +19,7 @@ class _WorkoutScreenManagementState extends State<WorkoutScreenManagement> {
   bool _dropdownValid = true;
   int? _dropdownValue;
   int? a;
+  bool isInit = true;
 
   // Workout _workout = Workout('3674', 'Igor', 'https://igor/hd.png', 1);
   Workout _workout = Workout();
@@ -46,7 +47,14 @@ class _WorkoutScreenManagementState extends State<WorkoutScreenManagement> {
     if (valid == true && _dropdownValid == true) {
       _formKey.currentState!.save();
       _workout.weekDay = _dropdownValue;
-      await Provider.of<WorkoutProvider>(context, listen: false).add(_workout);
+      await Provider.of<WorkoutProvider>(context, listen: false)
+          .update(_workout);
+      if (_workout.id != null) {
+      } else {
+        await Provider.of<WorkoutProvider>(context, listen: false)
+            .add(_workout);
+      }
+
       Navigator.of(context).pop();
       //Provider<WorkoutProvider>(context).
     } else {
@@ -55,16 +63,31 @@ class _WorkoutScreenManagementState extends State<WorkoutScreenManagement> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+  }
+
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    // final Object? arguments = ModalRoute.of(context)!.settings.arguments;
-    // _workout = Provider.of<WorkoutProvider>(context).getById(arguments.toString());
+
+    if (isInit) {
+      final Map<String, Object>? arguments =
+          ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
+      if (arguments!['id'].toString() != null) {
+        _workout = Provider.of<WorkoutProvider>(context, listen: false)
+            .getById(arguments['id'].toString());
+        _dropdownValue = _workout.weekDay;
+      }
+    }
+    isInit = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments;
+    Map<String, Object>? arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
     return Scaffold(
       appBar: AppBar(
         title: Text('Novo Treino'),
